@@ -56,9 +56,33 @@ forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)),
 findall(trabajaEn(Persona,Proyecto),cumpleElRollDe(Persona, projectleader),L), length(L,1).
 
 %____Consultas______
+
 %---Punto 1
 
+%a
+%sabeProgramarEn(fernando, Lenguaje).
+
+%b
+%sabeProgramarEn(Programador, java).
+
+%c
+%sabeProgramarEn(_, Assembler).
+
+%d
+%sabeProgramarEn(fernando, _).
+
+%e
+%cumpleElRollDe(fernando, Rol).
+
+%f
+%sabeProgramarEn(Programador, _).
+
+%g
+%cumpleElRollDe(_, projectleader).
+%true.
+
 %---Punto 2
+
 %-1
 %?- seProgramaEn(sumatra,Lenguaje).
 %Lenguaje = java ;
@@ -112,12 +136,15 @@ findall(trabajaEn(Persona,Proyecto),cumpleElRollDe(Persona, projectleader),L), l
 
 
 %---Punto 3
+
 %-1
 %estaBienDefinido(sumatra).
 %true.
+
 %-2
 %estaBienDefinido(prometeus).
 %false.
+
 %-3
 %proyecto(Proyecto), not(estaBienDefinido(Proyecto)).
 %Proyecto = prometeus.
