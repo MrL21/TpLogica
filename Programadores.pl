@@ -55,21 +55,31 @@ findall(trabajaEn(Persona,Proyecto),cumpleElRolDe(Persona, projectleader),L), le
 
 %a
 %sabeProgramarEn(fernando, Lenguaje).
+%Lenguaje = cobol ;
+%Lenguaje = visualbasic .
+
 
 %b
 %sabeProgramarEn(Programador, java).
+%Programador = fernando ;
+%Programador = julieta .
 
 %c
-%sabeProgramarEn(_, Assembler).
+%sabeProgramarEn(_, assembler).
+%false.
 
 %d
 %sabeProgramarEn(fernando, _).
+%true 
 
 %e
 %cumpleElRolDe(fernando, Rol).
+%Rol = analista.
 
 %f
 %sabeProgramarEn(Programador, _).
+%Programador = fernando ;
+%Programador = fernando .
 
 %g
 %cumpleElRolDe(_, projectleader).
