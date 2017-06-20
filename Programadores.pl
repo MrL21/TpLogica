@@ -46,49 +46,55 @@ cumpleElRollDe(Alguien,projectleader).
 %true .
 
 proyecto(Proyecto):- seProgramaEn(Proyecto,_).
-estaBienDefinido(Proyecto):-
-proyecto(Proyecto),
-forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)),
-(trabajaEn(Persona,Proyecto),cumpleElRollDe(Persona,analista)).
+%estaBienDefinido(Proyecto):-
+%proyecto(Proyecto),
+%forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)),
+%(trabajaEn(Persona,Proyecto),cumpleElRollDe(Persona,analista)).
 
+estaBienDefinido(Proyecto):- proyecto(Proyecto), 
+forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)), 
+findall(trabajaEn(Persona,Proyecto),cumpleElRollDe(Persona, projectleader),L), length(L,1).
 
 %____Consultas______
-%---Punto 1---
+%---Punto 1
+
+%---Punto 2
+%-1
 %?- seProgramaEn(sumatra,Lenguaje).
 %Lenguaje = java ;
 %Lenguaje = net.
 
-%---Punto 2----
+%-2
 %?- not((seProgramaEn(prometeus,Lenguaje),Lenguaje\=cobol)).
 %true.
 
-%---Punto 3----
+%-3
 %?- trabajaEn(fernando,Proyecto).
 %Proyecto = prometeus.
 
-%----Punto 4----
+%-4-
 %?- trabajaEn(santiago,Proyecto).
 %Proyecto = prometeus.
 
-%----Punto 5----
+%-5
 %̀?- trabajaEn(Personas,sumatra).
 %Personas = julieta ;
 %Personas = marcos ;
 %Personas = andres.
 
-%---Punto 6---
+%-6
 %?- estaBienAsignado(Persona,sumatra).
 %Persona = julieta ;
 %Persona = marcos ;
 %Persona = andres.
 
-%---Punto 7---
+%-7
 %?- estaBienAsignado(Persona,prometeus).
 %Persona = fernando ;
 %Persona = fernando ;
 %false.
 
-%---Punto 8---
+%-8
 %?- estaBienAsignado(Persona,_).
 %Persona = fernando ;
 %Persona = julieta ;
@@ -96,10 +102,22 @@ forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)),
 %Persona = fernando ;
 %Persona = andres.
 
-%-----Punto 9----
+%-9
 %?- estaBienAsignado(_,Proyecto).
 %Proyecto = prometeus ;
 %Proyecto = sumatra ;
 %Proyecto = sumatra ;
 %Proyecto = prometeus ;
 %Proyecto = sumatra.
+
+
+%---Punto 3
+%-1
+%estaBienDefinido(sumatra).
+%true.
+%-2
+%estaBienDefinido(prometeus).
+%false.
+%-3
+%proyecto(Proyecto), not(estaBienDefinido(Proyecto)).
+%Proyecto = prometeus.
