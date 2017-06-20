@@ -19,27 +19,6 @@ cumpleElRollDe(fernando,analista).
 cumpleElRollDe(andres,projectleader).
 esProgramador(Alguien):-personas(Alguien),lenguajes(Lenguajes),sabeProgramarEn(Alguien,Lenguajes).
 
-personas(fernando).
-personas(andres).
-personas(julieta).
-personas(marcos).
-personas(santiago).
-lenguajes(cobol).
-lenguajes(java).
-lenguajes(ecmascript).
-lenguajes(visualbasic).
-lenguajes(assembler).
-sabeProgramarEn(fernando,cobol).
-sabeProgramarEn(fernando,visualbasic).
-sabeProgramarEn(fernando,java).
-sabeProgramarEn(julieta,java).
-sabeProgramarEn(marcos,java).
-sabeProgramarEn(santiago,java).
-sabeProgramarEn(santiago,ecmascript).
-cumpleElRollDe(fernando,analista).
-cumpleElRollDe(andres,projectleader).
-esProgramador(Alguien):-personas(Alguien),lenguajes(Lenguajes),sabeProgramarEn(Alguien,Lenguajes).
-
 seProgramaEn(sumatra,java).
 seProgramaEn(sumatra,net).
 seProgramaEn(prometeus,cobol).
