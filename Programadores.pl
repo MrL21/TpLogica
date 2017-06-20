@@ -15,8 +15,8 @@ sabeProgramarEn(julieta,java).
 sabeProgramarEn(marcos,java).
 sabeProgramarEn(santiago,java).
 sabeProgramarEn(santiago,ecmascript).
-cumpleElRollDe(fernando,analista).
-cumpleElRollDe(andres,projectleader).
+cumpleElRolDe(fernando,analista).
+cumpleElRolDe(andres,projectleader).
 esProgramador(Alguien):-personas(Alguien),lenguajes(Lenguajes),sabeProgramarEn(Alguien,Lenguajes).
 
 seProgramaEn(sumatra,java).
@@ -34,10 +34,10 @@ seProgramaEn(Proyecto,Lenguaje),
 sabeProgramarEn(Alguien,Lenguaje).
 estaBienAsignado(Alguien,Proyecto):-
 trabajaEn(Alguien,Proyecto),
-cumpleElRollDe(Alguien,analista).
+cumpleElRolDe(Alguien,analista).
 estaBienAsignado(Alguien,Proyecto):-
 trabajaEn(Alguien,Proyecto),
-cumpleElRollDe(Alguien,projectleader).
+cumpleElRolDe(Alguien,projectleader).
 
 %____Consultas______
 %?- estaBienAsignado(santiago,prometeus).
@@ -49,11 +49,11 @@ proyecto(Proyecto):- seProgramaEn(Proyecto,_).
 %estaBienDefinido(Proyecto):-
 %proyecto(Proyecto),
 %forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)),
-%(trabajaEn(Persona,Proyecto),cumpleElRollDe(Persona,analista)).
+%(trabajaEn(Persona,Proyecto),cumpleElRolDe(Persona,analista)).
 
 estaBienDefinido(Proyecto):- proyecto(Proyecto), 
 forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)), 
-findall(trabajaEn(Persona,Proyecto),cumpleElRollDe(Persona, projectleader),L), length(L,1).
+findall(trabajaEn(Persona,Proyecto),cumpleElRolDe(Persona, projectleader),L), length(L,1).
 
 %____Consultas______
 
@@ -72,13 +72,13 @@ findall(trabajaEn(Persona,Proyecto),cumpleElRollDe(Persona, projectleader),L), l
 %sabeProgramarEn(fernando, _).
 
 %e
-%cumpleElRollDe(fernando, Rol).
+%cumpleElRolDe(fernando, Rol).
 
 %f
 %sabeProgramarEn(Programador, _).
 
 %g
-%cumpleElRollDe(_, projectleader).
+%cumpleElRolDe(_, projectleader).
 %true.
 
 %---Punto 2
