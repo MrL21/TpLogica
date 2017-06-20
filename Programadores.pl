@@ -40,14 +40,14 @@ trabajaEn(Alguien,Proyecto),
 cumpleElRolDe(Alguien,projectleader).
 
 proyecto(Proyecto):- seProgramaEn(Proyecto,_).
-%estaBienDefinido(Proyecto):-
-%proyecto(Proyecto),
-%forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)),
-%(trabajaEn(Persona,Proyecto),cumpleElRolDe(Persona,analista)).
 
-estaBienDefinido(Proyecto):- proyecto(Proyecto), 
-forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)), 
+estaBienDefinido(Proyecto):- proyecto(Proyecto), forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)), 
 findall(trabajaEn(Persona,Proyecto),cumpleElRolDe(Persona, projectleader),L), length(L,1).
+
+%Esta otra solucion, a diferencia de lo de arriba, usa solo lo visto en clase(Pero segun esta un proyecto puede tener dos lideres)
+%Creo que para los casos de prueba del enunciado sirve igual
+%estaBienDefinido(Proyecto):- proyecto(Proyecto), forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)), 
+%trabajaEn(Persona,Proyecto), not(cumpleElRollDe(Persona, projectleader)).
 
 %____Consultas______
 
