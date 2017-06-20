@@ -39,12 +39,6 @@ estaBienAsignado(Alguien,Proyecto):-
 trabajaEn(Alguien,Proyecto),
 cumpleElRolDe(Alguien,projectleader).
 
-%____Consultas______
-%?- estaBienAsignado(santiago,prometeus).
-%false.
-%?- estaBienAsignado(fernando,prometeus).
-%true .
-
 proyecto(Proyecto):- seProgramaEn(Proyecto,_).
 %estaBienDefinido(Proyecto):-
 %proyecto(Proyecto),
