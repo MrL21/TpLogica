@@ -41,13 +41,14 @@ cumpleElRolDe(Alguien,projectleader).
 
 proyecto(Proyecto):- seProgramaEn(Proyecto,_).
 
-estaBienDefinido(Proyecto):- proyecto(Proyecto), forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)), 
-findall(trabajaEn(Persona,Proyecto),cumpleElRolDe(Persona, projectleader),L), length(L,1).
 
-%Esta otra solucion, a diferencia de lo de arriba, usa solo lo visto en clase(Pero segun esta un proyecto puede tener dos lideres)
-%Creo que para los casos de prueba del enunciado sirve igual
+estaBienDefinido(Proyecto):- proyecto(Proyecto), forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)), 
+trabajaEn(Lider,Proyecto), trabajaEn(Lider,Proyecto), not((trabajaEn(LiderUno,Proyecto), trabajaEn(LiderDos,Proyecto), cumpleElRolDe(LiderUno, projectleader), 
+cumpleElRolDe(LiderDos, projectleader), cumpleElRolDe(LiderUno, projectleader), PersonaUno \= PersonaDos)).
+
+%Esta otra solucion, a diferencia de lo de arriba, usa listas
 %estaBienDefinido(Proyecto):- proyecto(Proyecto), forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)), 
-%trabajaEn(Persona,Proyecto), not(cumpleElRollDe(Persona, projectleader)).
+%findall(trabajaEn(Persona,Proyecto),cumpleElRolDe(Persona, projectleader),L), length(L,1).
 
 %____Consultas______
 
@@ -143,6 +144,7 @@ findall(trabajaEn(Persona,Proyecto),cumpleElRolDe(Persona, projectleader),L), le
 
 %-1
 %estaBienDefinido(sumatra).
+%true;
 %true.
 
 %-2
