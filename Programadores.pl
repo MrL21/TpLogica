@@ -11,7 +11,9 @@ sabeProgramarEn(santiago,java).
 sabeProgramarEn(santiago,ecmascript).
 cumpleElRolDe(fernando,analista).
 cumpleElRolDe(andres,projectleader).
-esProgramador(Alguien):-personas(Alguien),lenguajes(Lenguajes),sabeProgramarEn(Alguien,Lenguajes).
+
+
+esProgramador(Alguien):-sabeProgramarEn(Alguien,_).
 
 seProgramaEn(sumatra,java).
 seProgramaEn(sumatra,net).
@@ -25,12 +27,12 @@ trabajaEn(andres,sumatra).
 esCompetente(Alguien, Proyecto) :- cumpleElRolDe(Alguien,projectleader).
 esCompetente(Alguien, Proyecto) :- cumpleElRolDe(Alguien,analista).
 esCompetente(Alguien, Proyecto) :- seProgramaEn(Proyecto,Lenguaje),
-sabeProgramarEn(Alguien,Lenguaje).
+	sabeProgramarEn(Alguien,Lenguaje).
 
 
 estaBienAsignado(Alguien,Proyecto):- 
-trabajaEn(Alguien,Proyecto),
-esCompetente(Alguien, Proyecto).
+	trabajaEn(Alguien,Proyecto),
+	esCompetente(Alguien, Proyecto).
 
 %estaBienAsignado(Alguien,Proyecto):- 
 %trabajaEn(Alguien,Proyecto),
@@ -45,11 +47,14 @@ esCompetente(Alguien, Proyecto).
 
 proyecto(Proyecto):- seProgramaEn(Proyecto,_).
 
-tieneUnSoloLider(Proyecto) :- trabajaEn(Lider,Proyecto), cumpleElRolDe(Lider, projectleader), not((trabajaEn(LiderDos,Proyecto),  
-cumpleElRolDe(LiderDos, projectleader), Lider \= LiderDos)).
+esLider(Lider,Proyecto) :- trabajaEn(Lider,Proyecto), cumpleElRolDe(Lider, projectleader).
 
-estaBienDefinido(Proyecto):- proyecto(Proyecto), forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)), 
-tieneUnSoloLider(Proyecto).
+tieneUnSoloLider(Proyecto) :- esLider(Lider,Proyecto), not((esLider(LiderDos,Proyecto), Lider \= LiderDos)).
+
+estanTodosBienAsignados(Proyecto) :- forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)).
+
+estaBienDefinido(Proyecto):- proyecto(Proyecto), estanTodosBienAsignados(Proyecto), 
+	tieneUnSoloLider(Proyecto).
 
 %Esta otra solucion, a diferencia de lo de arriba, usa listas
 %estaBienDefinido(Proyecto):- proyecto(Proyecto), forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)), 
