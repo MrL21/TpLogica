@@ -1,12 +1,6 @@
-personas(fernando).
-personas(andres).
-personas(julieta).
-personas(marcos).
-personas(santiago).
-lenguajes(cobol).
-lenguajes(java).
-lenguajes(ecmascript).
-lenguajes(visualbasic).
+personas(Persona) :- cumpleElRolDe(Persona, _).
+personas(Persona) :- sabeProgramarEn(Persona, _).
+lenguajes(Lenguaje) :- sabeProgramarEn(_, Lenguaje).
 lenguajes(assembler).
 sabeProgramarEn(fernando,cobol).
 sabeProgramarEn(fernando,visualbasic).
@@ -28,23 +22,34 @@ trabajaEn(julieta,sumatra).
 trabajaEn(marcos,sumatra).
 trabajaEn(andres,sumatra).
 
+esCompetente(Alguien, Proyecto) :- cumpleElRolDe(Alguien,projectleader).
+esCompetente(Alguien, Proyecto) :- cumpleElRolDe(Alguien,analista).
+esCompetente(Alguien, Proyecto) :- seProgramaEn(Proyecto,Lenguaje),
+sabeProgramarEn(Alguien,Lenguaje).
+
+
 estaBienAsignado(Alguien,Proyecto):- 
 trabajaEn(Alguien,Proyecto),
-seProgramaEn(Proyecto,Lenguaje),
-sabeProgramarEn(Alguien,Lenguaje).
-estaBienAsignado(Alguien,Proyecto):-
-trabajaEn(Alguien,Proyecto),
-cumpleElRolDe(Alguien,analista).
-estaBienAsignado(Alguien,Proyecto):-
-trabajaEn(Alguien,Proyecto),
-cumpleElRolDe(Alguien,projectleader).
+esCompetente(Alguien, Proyecto).
+
+%estaBienAsignado(Alguien,Proyecto):- 
+%trabajaEn(Alguien,Proyecto),
+%seProgramaEn(Proyecto,Lenguaje),
+%sabeProgramarEn(Alguien,Lenguaje).
+%estaBienAsignado(Alguien,Proyecto):-
+%trabajaEn(Alguien,Proyecto),
+%cumpleElRolDe(Alguien,analista).
+%estaBienAsignado(Alguien,Proyecto):-
+%trabajaEn(Alguien,Proyecto),
+%cumpleElRolDe(Alguien,projectleader).
 
 proyecto(Proyecto):- seProgramaEn(Proyecto,_).
 
+tieneUnSoloLider(Proyecto) :- trabajaEn(Lider,Proyecto), cumpleElRolDe(Lider, projectleader), not((trabajaEn(LiderDos,Proyecto),  
+cumpleElRolDe(LiderDos, projectleader), Lider \= LiderDos)).
 
 estaBienDefinido(Proyecto):- proyecto(Proyecto), forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)), 
-trabajaEn(Lider,Proyecto), trabajaEn(Lider,Proyecto), not((trabajaEn(LiderUno,Proyecto), trabajaEn(LiderDos,Proyecto), cumpleElRolDe(LiderUno, projectleader), 
-cumpleElRolDe(LiderDos, projectleader), cumpleElRolDe(LiderUno, projectleader), PersonaUno \= PersonaDos)).
+tieneUnSoloLider(Proyecto).
 
 %Esta otra solucion, a diferencia de lo de arriba, usa listas
 %estaBienDefinido(Proyecto):- proyecto(Proyecto), forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)), 
