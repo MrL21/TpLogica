@@ -1,7 +1,9 @@
 personas(Persona) :- cumpleElRolDe(Persona, _).
 personas(Persona) :- sabeProgramarEn(Persona, _).
 lenguajes(Lenguaje) :- sabeProgramarEn(_, Lenguaje).
+
 lenguajes(assembler).
+
 sabeProgramarEn(fernando,cobol).
 sabeProgramarEn(fernando,visualbasic).
 sabeProgramarEn(fernando,java).
@@ -9,41 +11,34 @@ sabeProgramarEn(julieta,java).
 sabeProgramarEn(marcos,java).
 sabeProgramarEn(santiago,java).
 sabeProgramarEn(santiago,ecmascript).
+
 cumpleElRolDe(fernando,analista).
 cumpleElRolDe(andres,projectleader).
-
 
 esProgramador(Alguien):-sabeProgramarEn(Alguien,_).
 
 seProgramaEn(sumatra,java).
 seProgramaEn(sumatra,net).
 seProgramaEn(prometeus,cobol).
+
 trabajaEn(fernando,prometeus).
 trabajaEn(santiago,prometeus).
 trabajaEn(julieta,sumatra).
 trabajaEn(marcos,sumatra).
 trabajaEn(andres,sumatra).
 
-esCompetente(Alguien, Proyecto) :- cumpleElRolDe(Alguien,projectleader).
-esCompetente(Alguien, Proyecto) :- cumpleElRolDe(Alguien,analista).
+esCompetente(Alguien, _) :- cumpleElRolDe(Alguien,projectleader).
+esCompetente(Alguien, _) :- cumpleElRolDe(Alguien,analista).
 esCompetente(Alguien, Proyecto) :- seProgramaEn(Proyecto,Lenguaje),
-	sabeProgramarEn(Alguien,Lenguaje).
-
+				 sabeProgramarEn(Alguien,Lenguaje).
 
 estaBienAsignado(Alguien,Proyecto):- 
 	trabajaEn(Alguien,Proyecto),
 	esCompetente(Alguien, Proyecto).
-
-%estaBienAsignado(Alguien,Proyecto):- 
-%trabajaEn(Alguien,Proyecto),
-%seProgramaEn(Proyecto,Lenguaje),
+%estaBienAsignado(Alguien,Proyecto):- trabajaEn(Alguien,Proyecto),seProgramaEn(Proyecto,Lenguaje),
 %sabeProgramarEn(Alguien,Lenguaje).
-%estaBienAsignado(Alguien,Proyecto):-
-%trabajaEn(Alguien,Proyecto),
-%cumpleElRolDe(Alguien,analista).
-%estaBienAsignado(Alguien,Proyecto):-
-%trabajaEn(Alguien,Proyecto),
-%cumpleElRolDe(Alguien,projectleader).
+%estaBienAsignado(Alguien,Proyecto):-trabajaEn(Alguien,Proyecto),cumpleElRolDe(Alguien,analista).
+%estaBienAsignado(Alguien,Proyecto):-trabajaEn(Alguien,Proyecto),cumpleElRolDe(Alguien,projectleader).
 
 proyecto(Proyecto):- seProgramaEn(Proyecto,_).
 
@@ -53,114 +48,92 @@ tieneUnSoloLider(Proyecto) :- esLider(Lider,Proyecto), not((esLider(LiderDos,Pro
 
 estanTodosBienAsignados(Proyecto) :- forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)).
 
-estaBienDefinido(Proyecto):- proyecto(Proyecto), estanTodosBienAsignados(Proyecto), 
+estaBienDefinido(Proyecto):- proyecto(Proyecto), 
+	estanTodosBienAsignados(Proyecto), 
 	tieneUnSoloLider(Proyecto).
-
-%Esta otra solucion, a diferencia de lo de arriba, usa listas
-%estaBienDefinido(Proyecto):- proyecto(Proyecto), forall(trabajaEn(Alguien,Proyecto),estaBienAsignado(Alguien,Proyecto)), 
-%findall(trabajaEn(Persona,Proyecto),cumpleElRolDe(Persona, projectleader),L), length(L,1).
-
-%____Consultas______
-
-%---Punto 1
-
-%a
-%sabeProgramarEn(fernando, Lenguaje).
-%Lenguaje = cobol ;
-%Lenguaje = visualbasic .
+	
+esCopadoCon(fernando,santiago).
+esCopadoCon(santiago,julieta).
+esCopadoCon(santiago,marcos).
+esCopadoCon(julieta,andres).
 
 
-%b
-%sabeProgramarEn(Programador, java).
-%Programador = fernando ;
-%Programador = julieta .
+puedeEnseniar(Alguien,Lenguaje,Otro):-
+	personas(Otro),
+	sabeProgramarEn(Alguien,Lenguaje),
+	not(sabeProgramarEn(Otro,Lenguaje)),
+	Alguien \= Otro,
+	seCopan(Alguien,Otro).
 
-%c
-%sabeProgramarEn(_, assembler).
-%false.
+seCopan(Alguien,Otro):-
+	esCopadoCon(Alguien,Otro).
+seCopan(Alguien,Otro):-
+	personas(Persona),
+     esCopadoCon(Alguien,Persona),
+	Persona\=Otro,
+	seCopan(Persona,Otro).
+	
+%---Punto4----
 
-%d
-%sabeProgramarEn(fernando, _).
-%true 
-
-%e
-%cumpleElRolDe(fernando, Rol).
-%Rol = analista.
-
-%f
-%sabeProgramarEn(Programador, _).
-%Programador = fernando ;
-%Programador = fernando .
-
-%g
-%cumpleElRolDe(_, projectleader).
+%1)
+%?- esCopadoCon(fernando,santiago).
 %true.
 
-%---Punto 2
-
-%-1
-%?- seProgramaEn(sumatra,Lenguaje).
-%Lenguaje = java ;
-%Lenguaje = net.
-
-%-2
-%?- not((seProgramaEn(prometeus,Lenguaje),Lenguaje\=cobol)).
-%true.
-
-%-3
-%?- trabajaEn(fernando,Proyecto).
-%Proyecto = prometeus.
-
-%-4-
-%?- trabajaEn(santiago,Proyecto).
-%Proyecto = prometeus.
-
-%-5
-%̀?- trabajaEn(Personas,sumatra).
-%Personas = julieta ;
-%Personas = marcos ;
-%Personas = andres.
-
-%-6
-%?- estaBienAsignado(Persona,sumatra).
-%Persona = julieta ;
-%Persona = marcos ;
-%Persona = andres.
-
-%-7
-%?- estaBienAsignado(Persona,prometeus).
-%Persona = fernando ;
-%Persona = fernando ;
+%2)
+%?- esCopadoCon(fernando,julieta).
 %false.
 
-%-8
-%?- estaBienAsignado(Persona,_).
-%Persona = fernando ;
-%Persona = julieta ;
-% = marcos ;
-%Persona = fernando ;
-%Persona = andres.
+%3)
+%?- puedeEnseniar(fernando,cobol,santiago).
+%true .
+%?-  puedeEnseniar(fernando,cobol,julieta).
+%true .
+%?-  puedeEnseniar(fernando,cobol,marcos).
+%true .
+%?-  puedeEnseniar(fernando,cobol,andres).
+%true .
 
-%-9
-%?- estaBienAsignado(_,Proyecto).
-%Proyecto = prometeus ;
-%Proyecto = sumatra ;
-%Proyecto = sumatra ;
-%Proyecto = prometeus ;
-%Proyecto = sumatra.
-
-
-%---Punto 3
-
-%-1
-%estaBienDefinido(sumatra).
-%true;
-%true.
-
-%-2
-%estaBienDefinido(prometeus).
+%4)
+%?- puedeEnseniar(fernando,haskell,Alguien).
 %false.
 
-%-3
-%proyecto(Proyecto), not(estaBienDefinido(Proyecto)).
-%Proyecto = prometeus.
+%5)
+%?- puedeEnseniar(andres,java,fernando).
+%false.
+%andres no puede enseniar a fernando ya que fernando ya sabe java.
+%?- puedeEnseniar(andres,java,julieta).
+%false.
+%?- puedeEnseniar(andres,java,santiago).
+%false.
+
+%6)
+%?- puedeEnseniar(fernando,cobol,Alguien).
+%Alguien = andres ;
+%Alguien = andres ;
+%Alguien = julieta ;
+%Alguien = julieta ;
+%Alguien = marcos ;
+%Alguien = marcos ;
+%Alguien = santiago ;
+%Alguien = santiago ;
+%false.
+
+%?- puedeEnseniar(fernando,visualbasic,Alguien).
+%Alguien = andres ;
+%Alguien = andres ;
+%Alguien = julieta ;
+%Alguien = julieta ;
+%Alguien = marcos ;
+%Alguien = marcos ;
+%Alguien = santiago ;
+%Alguien = santiago ;
+%false.
+
+%?-  puedeEnseniar(fernando,java,Alguien).
+%Alguien = andres ;
+%Alguien = andres ;
+%false.
+
+%7)
+%?- puedeEnseniar(marcos,Lenguaje,Alguien).
+%false.
