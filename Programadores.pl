@@ -73,6 +73,24 @@ seCopan(Alguien,Otro):-
 	Persona\=Otro,
 	seCopan(Persona,Otro).
 	
+	
+
+tarea(fernando, evolutiva(compleja)).  
+tarea(fernando, correctiva(8, brainfuck)).
+tarea(fernando, algorítmica(150)).
+tarea(marcos, algorítmica(20)).
+tarea(julieta, correctiva(412, cobol)).
+tarea(julieta, correctiva(21, go)).
+tarea(julieta, evolutiva(simple)). 
+
+puntosTarea(evolutiva(_), 5).
+puntosTarea(algorítmica(Lineas), Puntos) :- Puntos is Lineas/10.
+puntosTarea(correctiva(_, brainfuck), 4).
+puntosTarea(correctiva(Lineas, _), 4) :- Lineas > 50.
+
+puntajeDeTarea(Programador, Puntos) :- tarea(Programador, Tarea), puntosTarea(Tarea, Puntos).
+
+seniority(Persona, Seniority) :- personas(Persona), findall(Puntos, puntajeDeTarea(Persona, Puntos), Puntajes), sumlist(Puntajes, Puntaje), Seniority is Puntaje.
 %---Punto4----
 
 %1)
@@ -137,3 +155,6 @@ seCopan(Alguien,Otro):-
 %7)
 %?- puedeEnseniar(marcos,Lenguaje,Alguien).
 %false.
+
+%seniority(fernando, Seniority).
+%Seniority = 24.
