@@ -83,7 +83,8 @@ tarea(julieta, correctiva(412, cobol)).
 tarea(julieta, correctiva(21, go)).
 tarea(julieta, evolutiva(simple)). 
 
-puntosTarea(evolutiva(_), 5).
+puntosTarea(evolutiva(compleja), 5).
+puntosTarea(evolutiva(simple), 3).
 puntosTarea(algorítmica(Lineas), Puntos) :- Puntos is Lineas/10.
 puntosTarea(correctiva(_, brainfuck), 4).
 puntosTarea(correctiva(Lineas, _), 4) :- Lineas > 50.
